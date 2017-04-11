@@ -89,9 +89,9 @@ cat <<EOF
                      IMPORTANT: DNs are currently not handled correctly, they are always sent as identities of type FQDN -->
                     <key>RemoteIdentifier</key>
                     <string>${CONN_REMOTE_IDENTIFIER}</string>
-                    <!-- Local IKE identity, same restrictions as above. If it is empty the client's IP address will be used -->
+                    <!-- Local IKE identity, same restrictions as above. Cannot be empty -->
                     <key>LocalIdentifier</key>
-                    <string></string>
+                    <string>${CONN_REMOTE_IDENTIFIER}</string>
                     <!--
                     OnDemand references:
                     http://www.v2ex.com/t/137653
@@ -104,6 +104,13 @@ cat <<EOF
                     <integer>1</integer>
                     <key>OnDemandRules</key>
                     <array>
+                        <dict>
+                            <!-- Disconnect on Cellular networks to preserve battery life -->
+                            <key>Action</key>
+                            <string>Disconnect</string>
+                            <key>InterfaceTypeMatch</key>
+                            <string>Cellular</string>
+                        </dict>
                         <dict>
                             <key>Action</key>
                             <string>Connect</string>
